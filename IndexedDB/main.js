@@ -17,7 +17,8 @@ const pIndexedDB = (name, keyPath, indexes = []) => {
 
         // if the db is not init (or version upgrade)
         DBOpenRequest.onupgradeneeded = (e) => {
-            const db = e.target.result
+            const target = e.target
+            const db = target.result
 
             db.onerror = () => { resolve() }// Error loading database           
 
@@ -26,8 +27,9 @@ const pIndexedDB = (name, keyPath, indexes = []) => {
             for (const index of indexes) {
                 objectStore.createIndex(index, index, { unique: false })
             }
-
-            resolve(initGetAddRemove(db))
+            target.transaction.oncomplete = () => { resolve(initGetAddRemove(db)) }
+            target.transaction.onerror = () => { resolve() }
+            target.transaction.onabort = () => { resolve() }
         }
 
         // what we resolve when indexedDB is ready
