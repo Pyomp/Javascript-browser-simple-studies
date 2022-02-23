@@ -5,15 +5,27 @@ import * as fs from 'fs'
 import { WebSocketServer } from 'ws'
 
 const server = createServer((request, response) => {
-    fs.readFile('./index.html', (error, content) => {
-        if (error !== null) {
-            response.writeHead(500)
-            response.end('404')
-        } else {
-            response.writeHead(200, { 'Content-Type': 'text/html' })
-            response.end(content, 'utf-8')
-        }
-    })
+    if (request.url === '/client.js') {
+        fs.readFile('./client.js', (error, content) => {
+            if (error !== null) {
+                response.writeHead(500)
+                response.end('404')
+            } else {
+                response.writeHead(200, { 'Content-Type': 'text/javascript' })
+                response.end(content, 'utf-8')
+            }
+        })
+    } else {
+        fs.readFile('./index.html', (error, content) => {
+            if (error !== null) {
+                response.writeHead(500)
+                response.end('404')
+            } else {
+                response.writeHead(200, { 'Content-Type': 'text/html' })
+                response.end(content, 'utf-8')
+            }
+        })
+    }
 })
 
 const CLIENTS = new Set()
