@@ -88,7 +88,7 @@ const createOfferBtn = document.createElement('button')
 createOfferBtn.innerHTML = 'createOffer'
 document.body.appendChild(createOfferBtn)
 
-createOfferBtn.addEventListener('click', () => {
+createOfferBtn.addEventListener('click', async () => {
 
     // Create the data channel and establish its event listeners
     const dataChannel = peer.createDataChannel("mainChan")
