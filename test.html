@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>courbe</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+        body {
+            background: #444444;
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+
+<script type='module'>
+
+    const w = 300
+    const h = 300
+    const canvas = document.createElement('canvas')
+    document.body.appendChild(canvas)
+    canvas.width = w
+    canvas.height = h
+    canvas.style.padding = '20px'
+    canvas.style.background = 'white'
+    const ctx = canvas.getContext('2d')
+    const linespace = (min, max, count) => {
+        const array = new Array(count)
+        const step = max - min
+        for (let i = 0; i < count; i++) {
+            array[i] = i * step
+        }
+        return array
+    }
+
+    const x = linespace(0,3,1000)//[0, 1, 2, 3]
+    const f = (x) => 600 * (x ** 1.7)
+    const y = x.map((a) => f(a))
+
+    const step_w = w / Math.abs(x[x.length - 1] - x[0])
+    const y_min = Math.min(...y)
+    const y_max = Math.max(...y)
+    const step_h = h / y_max - y_min
+    ctx.lineWidth = 5
+    const update = () => {
+        ctx.clearRect(0, 0, w, h)
+
+        ctx.strokeStyle = 'black'
+        ctx.moveTo(x[0] * step_w, h - (y[0] * step_h))
+        for (let i = 1; i < x.length; i++) {
+            ctx.lineTo(x[i] * step_w, h - (y[i] * step_h))
+        }
+        ctx.stroke()
+    }
+    update()
+
+</script>
+
+
+
+</html>
