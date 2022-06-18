@@ -6,7 +6,7 @@
 - The gain may be negligible in front of matrix operations, but the test only matter in this context to me.
 
 - I got the same fps downgrade at 150 div draw between
-- 
+
 ```js
 el.style.transform = `translate(${p_x.value}px,${p_y.value}px)
             matrix3d(
